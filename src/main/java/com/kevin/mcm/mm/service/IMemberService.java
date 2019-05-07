@@ -11,4 +11,5 @@ import java.util.Map;
 public interface IMemberService extends IService<Member> {
 
     Page<Member> listMembers(Page<Member> memberPage, Map map);
+
 }

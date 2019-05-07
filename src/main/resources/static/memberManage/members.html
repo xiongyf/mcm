@@ -10,13 +10,27 @@
 </head>
 <body>
 
+<div class="demoTable">
+  会员名称：
+  <div class="layui-inline">
+    <input class="layui-input" name="name" id="name" autocomplete="off">
+  </div>
+  手机号码：
+  <div class="layui-inline">
+    <input class="layui-input" name="phone" id="phone" autocomplete="off">
+  </div>
+  地址：
+  <div class="layui-inline">
+    <input class="layui-input" name="address" id="address" autocomplete="off">
+  </div>
+  <button class="layui-btn" id="search" data-type="reload">搜索</button>
+</div>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    <button class="layui-btn layui-btn-sm" onclick="create()">添加会员</button>
   </div>
 </script>
 
@@ -27,33 +41,54 @@
 
 
 <script src="../layui/layui.js" charset="utf-8"></script>
-
+<script src="../js/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script>
     layui.use('table', function(){
         var table = layui.table;
 
         table.render({
             elem: '#test'
-            ,url:'/test/table/demo1.json'
+            ,url:'/mm/member/listMembers'
             ,toolbar: '#toolbarDemo'
-            ,title: '用户数据表'
+            ,title: '会员数据表'
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-                ,{field:'username', title:'用户名', width:120, edit: 'text'}
-                ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
-                        return '<em>'+ res.email +'</em>'
-                    }}
-                ,{field:'sex', title:'性别', width:80, edit: 'text', sort: true}
-                ,{field:'city', title:'城市', width:100}
-                ,{field:'sign', title:'签名'}
-                ,{field:'experience', title:'积分', width:80, sort: true}
-                ,{field:'ip', title:'IP', width:120}
-                ,{field:'logins', title:'登入次数', width:100, sort: true}
-                ,{field:'joinTime', title:'加入时间', width:120}
+                /*{type: 'checkbox', fixed: 'left'}*/
+                {field:'id', title:'ID', width:80, fixed: 'left', unresize: true ,hide:true}
+                ,{field:'name', title:'会员名', width:120,  }
+                ,{field:'phone', title:'电话', width:120, }
+                ,{field:'address', title:'地址', width:200}
+                ,{field:'remark', title:'备注', width:150}
+                ,{field:'createTime', title:'创建时间', width:160,
+                    templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+
             ]]
             ,page: true
+        });
+
+        var $ = layui.$, active = {
+            reload: function(){
+                var name = $('#name');
+                var phone = $('#phone');
+                var address = $('#address');
+
+                //执行重载
+                table.reload('test', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                          name: name.val(),
+                          phone: phone.val(),
+                          address: address.val()
+                    }
+                });
+            }
+        };
+
+        $('#search').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
 
         //头工具栏事件
@@ -77,25 +112,44 @@
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            //console.log(obj)
             if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    layer.close(index);
+                layer.confirm('确定要删除吗？', function(index){
+                    $.ajax({
+                        type:"delete",
+                        url:'/mm/member/deleteById',
+                        data:{id:data.id},
+                        success:function (result) {
+                            layer.alert(result.msg);
+                            if(result.code==0){
+                                obj.del();
+                                layer.close(index);
+                            }
+                        }
+                    })
                 });
             } else if(obj.event === 'edit'){
-                layer.prompt({
-                    formType: 2
-                    ,value: data.email
-                }, function(value, index){
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
+                var url='memberInfo.html?id='+obj.data.id;
+                layer.open({
+                    type: 2,
+                    title:'修改',
+                    area: ['500px', '400px'],
+                    content: url //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                 });
+
             }
         });
     });
+    
+    function create() {
+        layer.open({
+            type: 2,
+            title:'添加会员',
+            area: ['500px', '400px'],
+            content: 'memberInfo.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }
+
+
 </script>
 </body>
 </html>

@@ -1,9 +1,12 @@
 package com.kevin.mcm.mm.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,7 +28,8 @@ public class Member implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    @TableId(type = IdType.AUTO)
+    private String id;
     /**
      * 姓名
      */
@@ -54,7 +58,7 @@ public class Member implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
 
 }

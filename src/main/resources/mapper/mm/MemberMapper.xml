@@ -18,13 +18,13 @@
             and name like concat('%',#{map.name},'%')
         </if>
         <if test="map.phone !=null and map.phone !='' ">
-            and name like concat('%',#{map.phone},'%')
+            and phone like concat('%',#{map.phone},'%')
         </if>
         <if test="map.address !=null and map.address !='' ">
-            and name like concat('%',#{address},'%')
+            and address like concat('%',#{map.address},'%')
         </if>
         <if test="map.remark !=null and map.remark !='' ">
-            and name like concat('%',#{map.remark},'%')
+            and remark like concat('%',#{map.remark},'%')
         </if>
         order by  create_time desc
     </select>
