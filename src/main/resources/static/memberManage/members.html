@@ -37,6 +37,7 @@
 </script>
 
 <script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="consume">消费记录</a>
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -62,7 +63,7 @@
                 ,{field:'remark', title:'备注', width:150}
                 ,{field:'createTime', title:'创建时间', width:160,
                     templet : "<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:186}
 
             ]]
             ,page: true
@@ -135,23 +136,20 @@
                     area: ['500px', '400px'],
                     content: url //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                 });
-
+            } else if(obj.event === 'consume'){
+                var url='consumeReocords.html?memberId='+obj.data.id;
+                layer.open({
+                    type: 2,
+                    title: '会员消费记录',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['960px', '650px'],
+                    content: url
+                });
             }
         });
 
-        // 双击打开会员消费记录
-        table.on('rowDouble(test)', function(obj){
-            var url='consumeReocords.html?memberId='+obj.data.id;
-            layer.open({
-                type: 2,
-                title: '会员消费记录',
-                shadeClose: true,
-                shade: false,
-                maxmin: true, //开启最大化最小化按钮
-                area: ['960px', '650px'],
-                content: url
-            });
-        });
     });
     
 

@@ -22,7 +22,7 @@
           <dd><a href="">安全设置</a></dd>
         </dl>
       </li>-->
-      <li class="layui-nav-item"><a href="">退出</a></li>
+      <li class="layui-nav-item"><a href="javascript:logout()">退出</a></li>
     </ul>
   </div>
   
@@ -58,12 +58,26 @@
   </div>
 </div>
 <script src="layui/layui.js"></script>
+<script src="js/jquery-3.4.1.min.js" charset="utf-8"></script>
 <script>
 //JavaScript代码区域
 layui.use('element', function(){
   var element = layui.element;
   
 });
+  function logout() {
+      $.ajax({
+          type:'post',
+          url:'/sys/user/logout',
+          success:function (data) {
+              if(data.code == '0'){
+                  window.location.href='/login.html';
+              }else{
+                  layer.msg(data.msg)
+              }
+          }
+      })
+  }
 </script>
 </body>
 </html>

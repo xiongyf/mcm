@@ -13,6 +13,8 @@
 
 <form class="layui-form" action="" lay-filter="example">
 
+    <input type="text" name="id" id="id" class="layui-input" style="display: none">
+
     <div class="layui-form-item">
         <label class="layui-form-label">会员名称</label>
         <div class="layui-input-block" style="width: 336px;">
@@ -123,6 +125,7 @@
                 success:function (result) {
                     //表单初始赋值
                     form.val('example', {
+                        "id": id,
                         "name": result.data.name,
                         "phone": result.data.phone,
                         "address": result.data.address,
