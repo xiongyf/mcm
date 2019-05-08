@@ -46,14 +46,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">单价</label>
         <div class="layui-input-block" style="width: 322px;">
-            <input type="text" name="unitPrice"  placeholder="请输入单价" autocomplete="off" class="layui-input">
+            <input type="text" name="unitPrice" id="unitPrice" onchange="onPriceOrCountChange()" placeholder="请输入单价" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">数量</label>
         <div class="layui-input-block" style="width: 322px;">
-            <input type="text" name="count"  placeholder="请输入数量" autocomplete="off" class="layui-input">
+            <input type="text" name="count" id="count"  onchange="onPriceOrCountChange()" placeholder="请输入数量" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -173,6 +173,16 @@
         $("#memberId").attr("value",memberId)   ;
     });
 
+    function onPriceOrCountChange() {
+        var unitPrice=$("#unitPrice").val();
+        var count=$("#count").val();
+        if(unitPrice && count){
+            var form = layui.form;
+            form.val('example', {
+                "amount": unitPrice * count
+            })
+        }
+    }
 
 </script>
 

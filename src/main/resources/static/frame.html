@@ -33,7 +33,7 @@
         <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">会员管理</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;">会员列表</a></dd>
+            <dd><a href="javascript:loadFrame();">会员列表</a></dd>
 
           </dl>
         </li>
@@ -77,6 +77,10 @@ layui.use('element', function(){
               }
           }
       })
+  }
+
+  function loadFrame() {
+      $("#frameContent").attr("src","memberManage/members.html");
   }
 </script>
 </body>
