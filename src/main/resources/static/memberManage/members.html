@@ -10,6 +10,7 @@
 </head>
 <body>
 
+<!--搜索框开始-->
 <div class="demoTable">
   会员名称：
   <div class="layui-inline">
@@ -25,12 +26,13 @@
   </div>
   <button class="layui-btn" id="search" data-type="reload">搜索</button>
 </div>
+<!--搜索框结束-->
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
   <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm" onclick="create()">添加会员</button>
+    <button class="layui-btn layui-btn-sm" lay-event="create">添加会员</button>
   </div>
 </script>
 
@@ -95,17 +97,15 @@
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                case 'create':
+                    layer.open({
+                        type: 2,
+                        title:'添加会员',
+                        area: ['500px', '400px'],
+                        content: 'memberInfo.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+                    });
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
-                    break;
+
             };
         });
 
@@ -119,7 +119,7 @@
                         url:'/mm/member/deleteById',
                         data:{id:data.id},
                         success:function (result) {
-                            layer.alert(result.msg);
+                            layer.msg(result.msg);
                             if(result.code==0){
                                 obj.del();
                                 layer.close(index);
@@ -138,17 +138,22 @@
 
             }
         });
+
+        // 双击打开会员消费记录
+        table.on('rowDouble(test)', function(obj){
+            var url='consumeReocords.html?memberId='+obj.data.id;
+            layer.open({
+                type: 2,
+                title: '会员消费记录',
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['960px', '650px'],
+                content: url
+            });
+        });
     });
     
-    function create() {
-        layer.open({
-            type: 2,
-            title:'添加会员',
-            area: ['500px', '400px'],
-            content: 'memberInfo.html' //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-        });
-    }
-
 
 </script>
 </body>

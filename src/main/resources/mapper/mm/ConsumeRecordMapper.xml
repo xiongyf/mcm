@@ -2,4 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kevin.mcm.mm.mapper.ConsumeRecordMapper">
 
+    <resultMap id="consumeRecord" type="com.kevin.mcm.mm.entity.ConsumeRecord">
+        <id column="id" property="id" />
+        <result column="member_id" property="memberId"/>
+        <result column="consume_type" property="consumeType"/>
+        <result column="consume_goods" property="consumeGoods"/>
+        <result column="unit_price" property="unitPrice"/>
+        <result column="count" property="count"/>
+        <result column="amount" property="amount"/>
+        <result column="consume_time" property="consumeTime"/>
+        <result column="remark" property="remark"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <select id="listConsumeRecords" resultMap="consumeRecord">
+        SELECT * FROM `tb_mm_consume_record`
+        where 1=1
+        <if test="consumeRecordVo.memberId !=null and consumeRecordVo.memberId !='' ">
+            and member_id = #{consumeRecordVo.memberId}
+        </if>
+        <if test="consumeRecordVo.consumeType !=null and consumeRecordVo.consumeType !='' ">
+            and consume_type = #{consumeRecordVo.consumeType}
+        </if>
+        <if test="consumeRecordVo.consumeGoods !=null and consumeRecordVo.consumeGoods !='' ">
+            and consume_goods like concat('%',#{consumeRecordVo.consumeGoods},'%')
+        </if>
+        <if test="consumeRecordVo.beginAmount !=null and consumeRecordVo.beginAmount !='' ">
+            and  amount <![CDATA[ >= ]]>  #{consumeRecordVo.beginAmount}
+        </if>
+        <if test="consumeRecordVo.endAmount !=null and consumeRecordVo.endAmount !='' ">
+            and amount <![CDATA[ <= ]]>  #{consumeRecordVo.endAmount}
+        </if>
+        <if test="consumeRecordVo.beginConsumeTime !=null and consumeRecordVo.beginConsumeTime !='' ">
+            and DATE_FORMAT(consume_time, '%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  #{consumeRecordVo.beginConsumeTime}
+        </if>
+        <if test="consumeRecordVo.endConsumeTime !=null and consumeRecordVo.endConsumeTime !='' ">
+            and DATE_FORMAT(consume_time, '%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]>  #{map.endConsumeTime}
+        </if>
+        order by  consume_time desc
+    </select>
+
 </mapper>

@@ -13,26 +13,54 @@
 
 <form class="layui-form" action="" lay-filter="example">
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">会员名称</label>
-        <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" placeholder="请输入会员名称" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+    <input type="text" name="id" id="id" class="layui-input" style="display: none">
+    <input type="text" name="memberId" id="memberId" class="layui-input" style="display: none">
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">手机号码</label>
+            <label class="layui-form-label">消费时间</label>
             <div class="layui-input-inline">
-                <input type="tel" name="phone" width="90%" placeholder="请输入手机号码"lay-verify="required|phone" autocomplete="off" class="layui-input">
+                <input type="text" name="consumeTime" id="consumeTime" lay-verify="datetime" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">地址</label>
+        <label class="layui-form-label">消费类型</label>
         <div class="layui-input-block">
-            <input type="text" name="address"  width="90%" placeholder="请输入地址" autocomplete="off" class="layui-input">
+            <select name="consumeType" lay-filter="consumeType">
+                <option value=""></option>
+                <option value="1" selected="true">购买</option>
+                <option value="2">预存</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">消费物品</label>
+        <div class="layui-input-block">
+            <input type="text" name="consumeGoods"  placeholder="请输入消费物品" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">单价</label>
+        <div class="layui-input-block">
+            <input type="text" name="unitPrice"  placeholder="请输入单价" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">数量</label>
+        <div class="layui-input-block">
+            <input type="text" name="count"  placeholder="请输入数量" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">总金额</label>
+        <div class="layui-input-block">
+            <input type="text" name="amount" lay-verify="required"  placeholder="请输入总金额" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -62,9 +90,10 @@
             ,layedit = layui.layedit
             ,laydate = layui.laydate;
 
-        //日期
+        //日期时间
         laydate.render({
-            elem: '#date'
+            elem: '#consumeTime',
+            type: 'datetime'
         });
         laydate.render({
             elem: '#date1'
@@ -99,9 +128,10 @@
 
         //监听提交
         form.on('submit(demo1)', function(data){
+            console.log(data.field)
             $.ajax({
                 type:"post",
-                url:'/mm/member/saveOrUpdate',
+                url:'/mm/consumeRecord/saveOrUpdate',
                 data:data.field,
                 success:function (result) {
                     layer.msg(result.msg);
@@ -115,23 +145,33 @@
         });
 
         var id=getUrlParam('id');
+        //表单初始赋值
         if(id){
             $.ajax({
                 type:"get",
-                url:'/mm/member/one',
+                url:'/mm/consumeRecord/one',
                 data:{id:id},
                 success:function (result) {
-                    //表单初始赋值
                     form.val('example', {
-                        "name": result.data.name,
-                        "phone": result.data.phone,
-                        "address": result.data.address,
+                        "amount": result.data.amount,
+                        "consumeGoods": result.data.consumeGoods,
+                        "consumeTime": formatDate(result.data.consumeTime),
+                        "count": result.data.count,
                         "remark": result.data.remark,
+                        "unitPrice": result.data.unitPrice,
                     })
                 }
             });
-       }
+       }else{
+            form.val('example', {
+                "consumeTime": formatDate(new Date().getTime())
+            })
+        }
 
+       //为会员id赋值
+        var memberId=getUrlParam('memberId');
+        $("#id").attr("value",id);
+        $("#memberId").attr("value",memberId)   ;
     });
 
 

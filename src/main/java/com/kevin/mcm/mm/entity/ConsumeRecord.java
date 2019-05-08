@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,7 +28,7 @@ public class ConsumeRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(type= IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private String id;
     /**
      * 会员id
@@ -45,6 +46,16 @@ public class ConsumeRecord implements Serializable {
     private String consumeGoods;
 
     /**
+     * 单价
+     */
+    private String unitPrice;
+
+    /**
+     * 数量
+     */
+    private String count;
+
+    /**
      * 金额
      */
     private String amount;
@@ -52,7 +63,7 @@ public class ConsumeRecord implements Serializable {
     /**
      * 消费时间
      */
-    private LocalDateTime consumeTime;
+    private Date consumeTime;
 
     /**
      * 备注
@@ -61,7 +72,7 @@ public class ConsumeRecord implements Serializable {
 
     private String createBy;
 
-    private LocalDateTime createTime;
+    private Date createTime;
 
 
 }

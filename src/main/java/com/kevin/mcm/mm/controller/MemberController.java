@@ -46,7 +46,7 @@ public class MemberController {
         }
         Page<Member> memberPage = new Page<>();
         memberPage.setCurrent(Integer.valueOf(page == null ? "0" : page));
-        memberPage.setSize(Integer.valueOf(limit));
+        memberPage.setSize(Integer.valueOf(limit == null ? "10" : limit));
         memberPage = memberService.listMembers(memberPage, map);
         baseResult.setData(memberPage.getRecords());
         baseResult.setCount(memberPage.getTotal());
@@ -102,7 +102,7 @@ public class MemberController {
             memberService.removeById(id);
         } catch (Exception e) {
             e.printStackTrace();
-            baseResult.setCount(500);
+            baseResult.setCode(500);
             baseResult.setMsg("删除失败");
         }
         return baseResult;
