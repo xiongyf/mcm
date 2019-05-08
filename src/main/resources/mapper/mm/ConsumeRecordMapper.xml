@@ -34,11 +34,11 @@
         <if test="consumeRecordVo.endAmount !=null and consumeRecordVo.endAmount !='' ">
             and amount <![CDATA[ <= ]]>  #{consumeRecordVo.endAmount}
         </if>
-        <if test="consumeRecordVo.beginConsumeTime !=null and consumeRecordVo.beginConsumeTime !='' ">
-            and DATE_FORMAT(consume_time, '%Y-%m-%d %H:%i:%S') <![CDATA[ >= ]]>  #{consumeRecordVo.beginConsumeTime}
+        <if test="consumeRecordVo.beginConsumeTime !=null">
+            and consume_time <![CDATA[ >= ]]>  #{consumeRecordVo.beginConsumeTime}
         </if>
-        <if test="consumeRecordVo.endConsumeTime !=null and consumeRecordVo.endConsumeTime !='' ">
-            and DATE_FORMAT(consume_time, '%Y-%m-%d %H:%i:%S') <![CDATA[ <= ]]>  #{map.endConsumeTime}
+        <if test="consumeRecordVo.endConsumeTime !=null ">
+            and consume_time <![CDATA[ <= ]]>  #{consumeRecordVo.endConsumeTime}
         </if>
         order by  consume_time desc
     </select>

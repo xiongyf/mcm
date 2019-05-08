@@ -109,6 +109,6 @@ public class ConsumeRecordController {
 
     @InitBinder
     public void initDateFormate(WebDataBinder dataBinder) {
-        dataBinder.addCustomFormatter(new DateFormatter("yyyy-MM-dd HH:mm:ss"));
+        dataBinder.addCustomFormatter(new DateFormatter("yyyy-MM-dd"));
     }
 }

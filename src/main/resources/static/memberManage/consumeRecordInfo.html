@@ -92,8 +92,7 @@
 
         //日期时间
         laydate.render({
-            elem: '#consumeTime',
-            type: 'datetime'
+            elem: '#consumeTime'
         });
         laydate.render({
             elem: '#date1'
@@ -164,7 +163,7 @@
             });
        }else{
             form.val('example', {
-                "consumeTime": formatDate(new Date().getTime())
+                "consumeTime": formatDate(new Date().getTime(),'YY-MM-DD')
             })
         }
 
