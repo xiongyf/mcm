@@ -58,7 +58,7 @@
                 /*{type: 'checkbox', fixed: 'left'}*/
                 {field:'id', title:'ID', width:80, fixed: 'left', unresize: true ,hide:true}
                 ,{field:'name', title:'会员名称', width:120,
-                    templet : "<div><a href='javascript:consumeRecord({{d.id}})'>{{d.name}}</a></div>" }
+                    templet : "<div><a href='javascript:consumeRecord({{d.id}},\"{{d.name}}\")'>{{d.name}}</a></div>" }
                 ,{field:'phone', title:'电话', width:120, }
                 ,{field:'address', title:'地址', width:200}
                 ,{field:'remark', title:'备注', width:150}
@@ -115,7 +115,7 @@
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event === 'del'){
-                layer.confirm('确定要删除吗？', function(index){
+                layer.confirm('确定要删除 '+data.name+' 会员吗？', function(index){
                     $.ajax({
                         type:"delete",
                         url:'/mm/member/deleteById',
@@ -138,17 +138,18 @@
                     content: url //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                 });
             } else if(obj.event === 'consume'){
-                consumeRecord(obj.data.id)
+                console.log(obj)
+                consumeRecord(obj.data.id,data.name)
             }
         });
 
     });
 
-    function consumeRecord(id) {
+    function consumeRecord(id,name) {
         var url='consumeRecords.html?memberId='+id;
         layer.open({
             type: 2,
-            title: '会员消费记录',
+            title: name+' 会员消费记录',
             shadeClose: true,
             shade: false,
             maxmin: true, //开启最大化最小化按钮
