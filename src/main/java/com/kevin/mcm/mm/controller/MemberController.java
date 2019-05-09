@@ -114,7 +114,7 @@ public class MemberController {
     public BaseResult deleteById(String id) {
         BaseResult baseResult = new BaseResult();
         try {
-            memberService.removeById(id);
+            memberService.removeMemberAndRecord(id);
         } catch (Exception e) {
             e.printStackTrace();
             baseResult.setCode(500);

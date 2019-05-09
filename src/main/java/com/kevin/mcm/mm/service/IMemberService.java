@@ -12,4 +12,10 @@ public interface IMemberService extends IService<Member> {
 
     Page<Member> listMembers(Page<Member> memberPage, Map map);
 
+    /**
+     * 删除会员和消费记录
+     * @param id
+     */
+    void removeMemberAndRecord(String id);
+
 }
