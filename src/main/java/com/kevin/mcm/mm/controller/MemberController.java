@@ -6,10 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kevin.mcm.mm.entity.Member;
 import com.kevin.mcm.mm.service.IMemberService;
 import com.kevin.mcm.sys.BaseResult;
+import com.kevin.mcm.sys.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.security.auth.Subject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -95,6 +98,7 @@ public class MemberController {
                     return baseResult;
                 }
                 member.setCreateTime(new Date());
+                member.setCreateBy(CommonUtil.getUserId());
                 memberService.save(member);
             }
         } catch (Exception e) {

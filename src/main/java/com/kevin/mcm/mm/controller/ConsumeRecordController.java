@@ -8,6 +8,7 @@ import com.kevin.mcm.mm.service.IConsumeRecordService;
 import com.kevin.mcm.mm.service.IMemberService;
 import com.kevin.mcm.mm.vo.ConsumeRecordVo;
 import com.kevin.mcm.sys.BaseResult;
+import com.kevin.mcm.sys.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.web.bind.WebDataBinder;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Kevin
@@ -29,7 +30,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/mm/consumeRecord")
 public class ConsumeRecordController {
-
 
     @Resource
     IConsumeRecordService consumeRecordService;
@@ -79,6 +79,7 @@ public class ConsumeRecordController {
                 consumeRecordService.updateById(consumeRecord);
             } else {
                 consumeRecord.setCreateTime(new Date());
+                consumeRecord.setCreateBy(CommonUtil.getUserId());
                 consumeRecordService.save(consumeRecord);
             }
         } catch (Exception e) {
