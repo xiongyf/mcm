@@ -1,5 +1,7 @@
 package com.kevin.mcm.config.shiro;
 
+import com.kevin.mcm.sys.entity.User;
+import com.kevin.mcm.sys.service.IUserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -9,23 +11,15 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SysRealm extends AuthorizingRealm {
 
-    Map<String, String> map = new HashMap<>();
-
-    {
-        map.put("tom", "e10adc3949ba59abbe56e057f20f883e");
-        map.put("cat", "1234");
-        super.setName("SysRealm");
-    }
-
+    @Resource
+    IUserService userService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -51,13 +45,17 @@ public class SysRealm extends AuthorizingRealm {
     }
 
     /**
-     * 模拟从数据库获取密码
+     * 从数据库获取密码
      *
      * @param username
      * @return
      */
     private String getPasswordByUsername(String username) {
-        return map.get(username);
+        User user = userService.getByUserName(username);
+        if (user != null) {
+            return user.getPassword();
+        }
+        return null;
     }
 
     private List<String> getRolesByUsername(String username) {
