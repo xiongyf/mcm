@@ -81,8 +81,8 @@
                 /*{type: 'checkbox', fixed: 'left'}
                 {field:'id', title:'ID', width:80, fixed: 'left', unresize: true ,hide:true}
                 ,*/
-                {field:'consumeTime', title:'消费时间', width:103,
-                    templet : "<div>{{layui.util.toDateString(d.consumeTime, 'yyyy-MM-dd')}}</div>"}
+                {field:'consumeTime', title:'消费时间', width:160,
+                    templet : "<div>{{layui.util.toDateString(d.consumeTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
                 ,{field:'consumeType', title:'消费类型', width:100,
                     templet : "<div>{{d.consumeType== '1'? '购买':(d.consumeType== '2'?'预存':'')}}</div>"}
                 ,{field:'consumeGoods', title:'消费物品', width:120, }

@@ -92,10 +92,8 @@
 
         //日期时间
         laydate.render({
-            elem: '#consumeTime'
-        });
-        laydate.render({
-            elem: '#date1'
+            elem: '#consumeTime',
+            type: 'datetime'
         });
 
         //创建一个编辑器
@@ -163,7 +161,7 @@
             });
        }else{
             form.val('example', {
-                "consumeTime": formatDate(new Date().getTime(),'YY-MM-DD')
+                "consumeTime": formatDate(new Date().getTime(),'YY-MM-DD hh:mm:ss')
             })
         }
 

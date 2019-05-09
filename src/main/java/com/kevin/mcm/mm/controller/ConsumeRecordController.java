@@ -107,8 +107,4 @@ public class ConsumeRecordController {
         return baseResult;
     }
 
-    @InitBinder
-    public void initDateFormate(WebDataBinder dataBinder) {
-        dataBinder.addCustomFormatter(new DateFormatter("yyyy-MM-dd"));
-    }
 }
