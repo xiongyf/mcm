@@ -12,6 +12,7 @@
         <result column="amount" property="amount"/>
         <result column="consume_time" property="consumeTime"/>
         <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
         <result column="create_by" property="createBy"/>
         <result column="create_time" property="createTime"/>
     </resultMap>
@@ -24,6 +25,9 @@
         </if>
         <if test="consumeRecordVo.consumeType !=null and consumeRecordVo.consumeType !='' ">
             and consume_type = #{consumeRecordVo.consumeType}
+        </if>
+        <if test="consumeRecordVo.status !=null and consumeRecordVo.status !='' ">
+            and status = #{consumeRecordVo.status}
         </if>
         <if test="consumeRecordVo.consumeGoods !=null and consumeRecordVo.consumeGoods !='' ">
             and consume_goods like concat('%',#{consumeRecordVo.consumeGoods},'%')

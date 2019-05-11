@@ -64,6 +64,17 @@
         </div>
     </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block" style="width: 322px;">
+            <select name="status" lay-filter="status">
+                <option value=""></option>
+                <option value="1" selected="true">已消费</option>
+                <option value="2">未消费</option>
+            </select>
+        </div>
+    </div>
+
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block" style="width: 322px;">
@@ -115,14 +126,6 @@
             }
         });
 
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
-
         //监听提交
         form.on('submit(demo1)', function(data){
             console.log(data.field)
@@ -141,6 +144,17 @@
             return false;
         });
 
+        //监听select框
+        form.on('select(consumeType)', function(data){
+            var id=getUrlParam('id');
+            if(!id){// 新增时生效
+                 var form = layui.form;
+                 form.val('example', {
+                     "status": data.value
+                 })
+             }
+        });
+
         var id=getUrlParam('id');
         //表单初始赋值
         if(id){
@@ -151,24 +165,27 @@
                 success:function (result) {
                     form.val('example', {
                         "amount": result.data.amount,
+                        "consumeType": result.data.consumeType,
                         "consumeGoods": result.data.consumeGoods,
                         "consumeTime": formatDate(result.data.consumeTime),
                         "count": result.data.count,
                         "remark": result.data.remark,
                         "unitPrice": result.data.unitPrice,
+                        "status": result.data.status,
                     })
                 }
             });
        }else{
             form.val('example', {
-                "consumeTime": formatDate(new Date().getTime(),'YY-MM-DD hh:mm:ss')
+                "consumeTime": formatDate(new Date().getTime(),'YY-MM-DD hh:mm:ss'),
+                "status": '1'
             })
         }
 
        //为会员id赋值
         var memberId=getUrlParam('memberId');
         $("#id").attr("value",id);
-        $("#memberId").attr("value",memberId)   ;
+        $("#memberId").attr("value",memberId);
     });
 
     function onPriceOrCountChange() {
@@ -181,6 +198,7 @@
             })
         }
     }
+
 
 </script>
 

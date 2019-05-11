@@ -72,6 +72,11 @@ public class ConsumeRecord implements Serializable {
      */
     private String remark;
 
+    /**
+     * 状态
+     */
+    private String status;
+
     private String createBy;
 
     private Date createTime;

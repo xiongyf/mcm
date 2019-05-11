@@ -36,13 +36,13 @@
         </form>
         </div>
         总金额:
-        <div class="layui-input-inline" style="width: 90px;">
+        <div class="layui-input-inline" style="width: 70px;">
             <input type="text" name="beginAmount" id="beginAmount" placeholder="￥" autocomplete="off" class="layui-input">
         </div>
         <div class="layui-inline">
             <div class="layui-form-mid">-</div>
         </div>
-        <div class="layui-input-inline" style="width: 90px;">
+        <div class="layui-input-inline" style="width: 70px;">
             <input type="text" name="endAmount" id="endAmount" placeholder="￥" autocomplete="off" class="layui-input">
         </div>
 
@@ -83,12 +83,14 @@
                 ,*/
                 {field:'consumeTime', title:'消费时间', width:160,
                     templet : "<div>{{layui.util.toDateString(d.consumeTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
-                ,{field:'consumeType', title:'消费类型', width:100,
+                ,{field:'consumeType', title:'消费类型', width:86,
                     templet : "<div>{{d.consumeType== '1'? '购买':(d.consumeType== '2'?'预存':'')}}</div>"}
                 ,{field:'consumeGoods', title:'消费物品', width:120, }
-                ,{field:'unitPrice', title:'单价', width:80, }
+                ,{field:'unitPrice', title:'单价', width:65, }
                 ,{field:'count', title:'数量', width:80, }
                 ,{field:'amount', title:'消费金额', width:100}
+                ,{field:'status', title:'状态', width:75,
+                    templet : "<div>{{d.status== '1'? '已消费':(d.status== '2'?'未消费':'')}}</div>"}
                 ,{field:'remark', title:'备注', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:120}
 
@@ -135,7 +137,7 @@
                     layer.open({
                         type: 2,
                         title:'添加消费记录',
-                        area: ['500px', '550px'],
+                        area: ['500px', '620px'],
                         content: url //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
                     });
                     break;
@@ -166,7 +168,7 @@
                 layer.open({
                     type: 2,
                     title:'修改消费记录',
-                    area: ['500px', '550px'],
+                    area: ['500px', '620px'],
                     content: url
                 });
 

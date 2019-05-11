@@ -26,6 +26,9 @@
         <if test="map.remark !=null and map.remark !='' ">
             and remark like concat('%',#{map.remark},'%')
         </if>
+        <if test="map.createBy !=null and map.createBy !='' ">
+            and create_by = #{map.createBy}
+        </if>
         order by  create_time desc
     </select>
 

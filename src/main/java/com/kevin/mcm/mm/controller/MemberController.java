@@ -48,6 +48,7 @@ public class MemberController {
             map.put("phone", member.getPhone());
             map.put("address", member.getAddress());
             map.put("remark", member.getRemark());
+            map.put("createBy", CommonUtil.getUserId());
         }
         Page<Member> memberPage = new Page<>();
         memberPage.setCurrent(Integer.valueOf(page == null ? "0" : page));

@@ -29,6 +29,7 @@ CREATE TABLE `tb_mm_consume_record` (
   `amount` varchar(255) DEFAULT NULL COMMENT '金额',
   `consume_time` datetime DEFAULT NULL COMMENT '消费时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `status` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '状态',
   `create_by` varchar(255) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -59,7 +60,7 @@ CREATE TABLE `tb_sys_user` (
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '密码',
   `salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '盐',
   `phone` varchar(255) DEFAULT NULL COMMENT '手机号码',
-  `status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '状态',
+  `status` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '状态，1：未消费，2：已消费',
   `create_by` varchar(255) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
