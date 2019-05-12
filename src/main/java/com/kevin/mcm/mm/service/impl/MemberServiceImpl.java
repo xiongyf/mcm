@@ -41,6 +41,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     }
 
     @Override
+    @Transactional
     public void removeMemberAndRecord(String id) {
         removeById(id);
         QueryWrapper<ConsumeRecord> wrapper = new QueryWrapper<>();
