@@ -11,6 +11,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.subject.Subject;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -48,8 +49,8 @@ public class UserController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
             subject.login(token);
-            User user=userService.getByUserName(username);
-            subject.getSession().setAttribute("userId",user.getId());
+            User user = userService.getByUserName(username);
+            subject.getSession().setAttribute("userId", user.getId());
         } catch (AuthenticationException e) {
             e.printStackTrace();
             baseResult.setCode(500);
@@ -76,7 +77,18 @@ public class UserController {
         }
         baseResult.setMsg("退出成功");
         return baseResult;
-
     }
+
+    @GetMapping("/current")
+    public BaseResult current() {
+        BaseResult baseResult = new BaseResult();
+        Subject subject = SecurityUtils.getSubject();
+        User user = new User();
+        user.setId((String) subject.getSession().getAttribute("userId"));
+        user.setUsername((String) subject.getPrincipal());
+        baseResult.setData(user);
+        return baseResult;
+    }
+
 
 }
