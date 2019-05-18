@@ -1,16 +1,9 @@
 package com.kevin.mcm.config.shiro;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.servlet.Filter;
-
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -25,6 +18,11 @@ import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.servlet.Filter;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @ClassName: ShiroConfiguration 
@@ -131,18 +129,6 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setFilters(filters);
 
         return shiroFilterFactoryBean;
-    }
-
-    /**
-     * 基于Form表单的身份验证过滤器
-     *
-     * @return
-     */
-    @Bean(name = "systemFormAuthenticationFilter")
-    public SystemFormAuthenticationFilter systemFormAuthenticationFilter() {
-        SystemFormAuthenticationFilter systemFormAuthenticationFilter = new SystemFormAuthenticationFilter();
-        systemFormAuthenticationFilter.setLoginUrl("/user/login");
-        return systemFormAuthenticationFilter;
     }
 
     /**
