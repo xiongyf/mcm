@@ -1,5 +1,6 @@
 package com.kevin.mcm.config.shiro;
 
+import com.kevin.mcm.sys.util.CommonUtil;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
@@ -97,7 +98,7 @@ public class ShiroConfiguration {
             @Override
             public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
                 char[] credential = (char[]) token.getCredentials();
-                String inputPassword = new Md5Hash(String.valueOf(credential)).toString();
+                String inputPassword = CommonUtil.md5Encrypt(String.valueOf(credential));
                 String realPassword = (String) info.getCredentials();
                 return inputPassword.equals(realPassword);
             }

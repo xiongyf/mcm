@@ -5,6 +5,8 @@ import com.kevin.mcm.config.shiro.SysRealm;
 import com.kevin.mcm.sys.BaseResult;
 import com.kevin.mcm.sys.entity.User;
 import com.kevin.mcm.sys.service.IUserService;
+import com.kevin.mcm.sys.util.CommonUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -90,5 +92,26 @@ public class UserController {
         return baseResult;
     }
 
-
+    @PostMapping("/changePassword")
+    public BaseResult changePassword(String oldPassword, String newPassword1, String newPassword2) {
+        BaseResult baseResult = new BaseResult();
+        if (StringUtils.isBlank(oldPassword) || StringUtils.isBlank(newPassword1) || StringUtils.isBlank(newPassword2)) {
+            baseResult.setCode(500);
+            baseResult.setMsg("必填字段不能为空");
+            return baseResult;
+        }
+        Subject subject = SecurityUtils.getSubject();
+        String userId = (String) subject.getSession().getAttribute("userId");
+        String realOldPassword = userService.getById(userId).getPassword();
+        if (!CommonUtil.md5Encrypt(oldPassword).equals(realOldPassword)) {
+            baseResult.setCode(500);
+            baseResult.setMsg("原密码不正确");
+            return baseResult;
+        }
+        User user = new User();
+        user.setId(userId);
+        user.setPassword(CommonUtil.md5Encrypt(newPassword1));
+        userService.updateById(user);
+        return baseResult;
+    }
 }
